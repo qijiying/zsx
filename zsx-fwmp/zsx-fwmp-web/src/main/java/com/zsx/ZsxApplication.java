@@ -15,21 +15,4 @@ public class ZsxApplication {
 		springApplication.addListeners(new PropertiesListener("setting/setting.properties"));
 		springApplication.run(args);
 	}
-	
-/*	@Bean
-    public Converter<String, Date> addNewConvert() {
-        return new Converter<String, Date>() {
-            @Override
-            public Date convert(String source) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                 Date date = null;
-            try {
-                date = sdf.parse((String) source);
-                } catch (Exception e) {
-                e.printStackTrace();
-                }
-             return date;
-            }
-        };
-    }*/
 }
