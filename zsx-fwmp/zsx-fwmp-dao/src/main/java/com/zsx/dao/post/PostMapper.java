@@ -20,9 +20,9 @@ public interface PostMapper extends BaseMapper<Post>{
 	List<PostDto> selectPostByKewordAndPage(@Param("id")Long id, @Param("key")String key, String groupName, Integer status, Date startTime,
 			Date endTime, @Param("userId")Long userId , @Param("current")Integer current,@Param("size")Integer size);
 
-	int getPostPageOfCount(@Param("userId")Long userId, @Param("code")Integer code);
+	int getWebPostPageOfCount();
 
-	List<PostDto> getPostPage(@Param("userId")Long userId, @Param("code")Integer code, @Param("current")Integer current, @Param("size")Integer size);
+	List<PostDto> getWebPostPage(@Param("current")Integer current, @Param("size")Integer size);
 
 	int getSearchPostPageOfCount(@Param("id")Long id, @Param("key")String key, String groupName, Integer status, Date startTime, Date endTime, @Param("userId")Long userId);
 

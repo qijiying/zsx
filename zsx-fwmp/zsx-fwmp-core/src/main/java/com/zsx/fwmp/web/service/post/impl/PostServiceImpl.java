@@ -127,11 +127,11 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements IPo
 		Integer current=(Integer) map.get("current");
 		Integer size=(Integer) map.get("size");
 		Page<PostDto> page=new Page<>(current,size);
- 		int count=postMapper.getPostPageOfCount(null, null);
+ 		int count=postMapper.getWebPostPageOfCount();
 		if(count==0){
 			return page;
 		}
-		List<PostDto> list = postMapper.getPostPage(null,null, current,size);
+		List<PostDto> list = postMapper.getWebPostPage(current,size);
 		 
 		updateFileColumn(list,ConstantClass.ONE_FLAG);
 		page.setRecords(list);
