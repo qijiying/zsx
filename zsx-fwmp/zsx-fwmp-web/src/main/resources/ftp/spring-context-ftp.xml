@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/integration/ftp
+		http://www.springframework.org/schema/integration/ftp/spring-integration-ftp-5.0.xsd
+		http://www.springframework.org/schema/integration 
+		http://www.springframework.org/schema/integration/spring-integration-5.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd"
+	default-lazy-init="true">
+	<description>WFX FTP配置</description>
+	<context:property-placeholder location="classpath:/setting/setting.properties"/>
+	<!-- FTP 会话工厂 -->
+	<bean id="ftpClientFactory"
+		class="org.springframework.integration.ftp.session.DefaultFtpSessionFactory">
+		<property name="host" value="${ftp.host}" />
+		<property name="port" value="${ftp.port}" />
+		<property name="username" value="${ftp.user}" />
+		<property name="password" value="${ftp.password}" />
+	</bean>
+
+	<bean id="cachingSessionFactory"
+		class="org.springframework.integration.file.remote.session.CachingSessionFactory">
+		<constructor-arg ref="ftpClientFactory" />
+		<constructor-arg value="200" />
+		<property name="sessionWaitTimeout" value="2000" />
+	</bean>
+
+	<!-- #################################################################### -->
+	<!-- # FTP 日志通道适配器 -->
+	<!-- #################################################################### -->
+	<int:logging-channel-adapter id="loggingChannel"
+		log-full-message="true" level="debug" />
+
+	<!-- #################################################################### -->
+	<!-- # FTP 网关表达式 -->
+	<!-- #################################################################### -->
+	<bean id="outboundGatewayExpression" class="java.lang.String">
+		<constructor-arg>
+			<value>new java.lang.String((payload != null and
+				headers['file_remoteDirectory'] == headers['file_remoteFile'] ?
+				payload : (headers['file_remoteDirectory'] + '/' +
+				headers['file_remoteFile']?:'')).getBytes('UTF-8'), 'ISO-8859-1')
+			</value>
+		</constructor-arg>
+	</bean>
+
+	<!-- FTP上传文件通道 -->
+	<int:channel id="ftpUploadChannel" />
+	<!-- FTP上传文件通道适配器 -->
+	<int-ftp:outbound-channel-adapter id="ftpOutbound"
+		channel="ftpUploadChannel" charset="UTF-8" remote-file-separator="/"
+		auto-create-directory="true" remote-directory-expression="headers['remote_dir']"
+		remote-filename-generator-expression="headers['remote_filename']"
+		session-factory="cachingSessionFactory" />
+
+	<!-- FTP删除文件通道 -->
+	<int:channel id="ftpRemoveChannel">
+		<int:interceptors>
+			<int:wire-tap channel="loggingChannel" />
+		</int:interceptors>
+	</int:channel>
+	<!-- FTP 删除文件网关 -->
+	<int-ftp:outbound-gateway id="gatewayRM"
+		session-factory="cachingSessionFactory"
+		expression="headers['file_remoteDirectory'] + '/' + headers['file_remoteFile']"
+		request-channel="ftpRemoveChannel" command="rm" reply-channel="nullChannel" />
+
+
+	<!-- #################################################################### -->
+	<!-- # FTP 下载文件通道 -->
+	<!-- #################################################################### -->
+	<int:channel id="ftpDownloadChannel" />
+
+	<!-- #################################################################### -->
+	<!-- # 获取 FTP 已下载文件通道 -->
+	<!-- #################################################################### -->
+	<int:channel id="ftpDownloadedChannel">
+		<int:queue />
+	</int:channel>
+
+	<!-- #################################################################### -->
+	<!-- # FTP 下载文件网关 -->
+	<!-- #################################################################### -->
+	<int-ftp:outbound-gateway id="gatewayDL"
+		command="mget" command-options="-P" session-factory="cachingSessionFactory"
+		request-channel="ftpDownloadChannel" reply-channel="ftpDownloadedChannel"
+		expression="#{@outboundGatewayExpression}" local-directory="/temp" />
+
+
+	<!-- #################################################################### -->
+	<!-- # FTP 列举文件通道 -->
+	<!-- #################################################################### -->
+	<int:channel id="listRemoteFileChannel" />
+
+	<!-- #################################################################### -->
+	<!-- # 获取 FTP 已列举文件详情 -->
+	<!-- #################################################################### -->
+	<int:channel id="listedRemoteFileChannel">
+		<int:queue />
+	</int:channel>
+
+	<!-- #################################################################### -->
+	<!-- # FTP 列举文件网关 -->
+	<!-- #################################################################### -->
+	<int-ftp:outbound-gateway command="ls"
+		command-options="-a" session-factory="cachingSessionFactory"
+		request-channel="listRemoteFileChannel" reply-channel="listedRemoteFileChannel"
+		expression="#{@outboundGatewayExpression}" />
+</beans>
