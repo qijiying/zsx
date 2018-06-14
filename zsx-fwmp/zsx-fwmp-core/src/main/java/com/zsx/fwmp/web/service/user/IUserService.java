@@ -11,7 +11,7 @@ import com.zsx.model.pojo.User;
 
 public interface IUserService extends IService<User>{
 
-	Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode, Date startTime, Date endTime, Page<User> page);
+	Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode,String source, Date startTime, Date endTime, Page<User> page);
 
 	Object insertUser(User user);
 

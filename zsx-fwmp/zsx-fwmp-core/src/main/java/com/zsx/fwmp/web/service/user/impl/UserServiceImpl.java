@@ -170,11 +170,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	 * @description 搜索用户
 	 */
 	@Override
-	public Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode, Date startTime, Date endTime,
+	public Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode,String source, Date startTime, Date endTime,
 			Page<User> page) {
-		List<User> list = userMapper.selectUserByUserAreaTimeAndPage(name,areaCode,startTime,endTime,page);
+		Integer flag = userSource(source);
+		List<User> list = userMapper.selectUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
 		page.setRecords(list);
-		int total = userMapper.selectTotalUserByUserAreaTimeAndPage(name,areaCode,startTime,endTime,page);
+		int total = userMapper.selectTotalUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
 		page.setTotal(total);
 		return page;
 	}
@@ -182,7 +183,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	/**
 	 * @Title selectUser
 	 * @see com.zsx.fwmp.service.user.IUserService#selectUser
-	 * @description 查找用户
+	 * @description 查找用户(只根据用户来源)
 	 */
 	@Override
 	public Page<User> selectUser(Map<String,Object> map) {
@@ -202,26 +203,43 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 			page.setRecords(list);
 			page.setTotal(count);
 		}else{
-			//根据用户来源查找用户
 			Integer flag = 1;
-			switch(source){
-			    case "web":
-			    	flag = ConstantClass.USER_SOURCE_WEB;break;
-			    case "android":
-			    	flag = ConstantClass.USER_SOURCE_ANDROID;break;
-			    case "ios":
-			    	flag = ConstantClass.USER_SOURCE_IOS;break;
-			    case "app":
-			    	flag = ConstantClass.USER_SOURCE_APP;break;
-			    default :
-			    	flag = ConstantClass.USER_SOURCE_WEB;break;
-			}
+            flag = userSource(source);
 			page = getUserListBySource(flag);
 		}
 		return page;
 	}
 	
 	
+	/**
+	 * @Title userSource
+	 * @param source
+	 * @description 用户来源
+	 * @return
+	 */
+	private Integer userSource(String source) {
+		
+		if(null==source){
+			return ConstantClass.USER_SOURCE_WEB;
+		}
+		
+		//根据用户来源查找用户
+		Integer flag = 1;
+		switch(source){
+		    case "web":
+		    	flag = ConstantClass.USER_SOURCE_WEB;break;
+		    case "android":
+		    	flag = ConstantClass.USER_SOURCE_ANDROID;break;
+		    case "ios":
+		    	flag = ConstantClass.USER_SOURCE_IOS;break;
+		    case "app":
+		    	flag = ConstantClass.USER_SOURCE_APP;break;
+		    default :
+		    	flag = ConstantClass.USER_SOURCE_WEB;break;
+		}
+		return flag;
+	}
+
 	/**
 	 * @Title getUserListBySource
 	 * @param flag
@@ -231,6 +249,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	private Page<User> getUserListBySource(Integer flag) {
 		Page<User> page=new Page<>();
 		String sql = " app_soucre="+flag;
+		//app用户标志  -3
 		if(flag==-3) sql = " app_soucre="+ConstantClass.USER_SOURCE_IOS+" or app_soucre="+ConstantClass.USER_SOURCE_ANDROID;
 		List<User> list = userMapper.selectList(new EntityWrapper<User>().where(sql));
 		int count=userMapper.selectCount(new EntityWrapper<User>().where(sql));

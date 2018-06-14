@@ -92,6 +92,7 @@ public class UserController {
 			 @RequestParam(value="name",required=false) String name,
 			 @RequestParam(value="areaCode",required=false) Integer areaCode,
 			 @RequestParam(value="startTime",required=false) Date startTime,
+			 @RequestParam(value="source",required=false) String source,
 			 @RequestParam(value="endTime",required=false) Date endTime,
 			 @RequestParam(value="current",required=false) Integer current,
 			 @RequestParam(value="size",required=false) Integer size
@@ -100,7 +101,7 @@ public class UserController {
 				.getInstance()
 				.creator(ResultEnum
 						.SUCCESS,iUserService
-						.selectUserByUserAreaTimeAndPage(name,areaCode,startTime,endTime
+						.selectUserByUserAreaTimeAndPage(name,areaCode,source,startTime,endTime
 								,new Page<>(current==null?1:current, size==null?10:size)));
 	}
 	
