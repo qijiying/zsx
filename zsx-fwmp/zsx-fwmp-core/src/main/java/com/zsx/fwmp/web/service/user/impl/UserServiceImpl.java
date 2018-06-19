@@ -174,6 +174,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 			Page<User> page) {
 		Integer flag = userSource(source);
 		List<User> list = userMapper.selectUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
+		updateFileColumn(list);
 		page.setRecords(list);
 		int total = userMapper.selectTotalUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
 		page.setTotal(total);
@@ -205,7 +206,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 		}else{
 			Integer flag = 1;
             flag = userSource(source);
-			page = getUserListBySource(flag);
+			page = getUserListBySource(flag,map);
 		}
 		return page;
 	}
@@ -246,12 +247,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	 * @description 根据用户来源查找用户
 	 * @return
 	 */
-	private Page<User> getUserListBySource(Integer flag) {
+	private Page<User> getUserListBySource(Integer flag,Map<String,Object> map) {
+		Integer current=(Integer) map.get("current");
+		Integer size=(Integer) map.get("size");
+		String limit = " limit "+current+","+size;
 		Page<User> page=new Page<>();
 		String sql = " app_soucre="+flag;
 		//app用户标志  -3
 		if(flag==-3) sql = " app_soucre="+ConstantClass.USER_SOURCE_IOS+" or app_soucre="+ConstantClass.USER_SOURCE_ANDROID;
-		List<User> list = userMapper.selectList(new EntityWrapper<User>().where(sql));
+		List<User> list = userMapper.selectList(new EntityWrapper<User>().where(sql).last(limit));
 		int count=userMapper.selectCount(new EntityWrapper<User>().where(sql));
 		updateFileColumn(list);
 		page.setRecords(list);

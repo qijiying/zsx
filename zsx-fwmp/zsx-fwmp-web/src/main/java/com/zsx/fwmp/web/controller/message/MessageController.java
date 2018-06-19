@@ -1,5 +1,7 @@
 package com.zsx.fwmp.web.controller.message;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.message.IMessageService;
@@ -60,6 +63,38 @@ public class MessageController {
 	}
 	
 	/**
+	 * @Title dataSearchMessage
+	 * @param sendUser
+	 * @param receiveUser
+	 * @param sendTitle
+	 * @param sendContent
+	 * @param current
+	 * @param size
+	 * @description 搜索消息controller
+	 * @return
+	 */
+	@PostMapping("/search")
+	protected Object dataSearchMessage(
+			 @RequestParam(value="sendUser",required=false) String sendUser,
+			 @RequestParam(value="receiveUser",required=false) String receiveUser,
+			 @RequestParam(value="sendTitle",required=false) String sendTitle,
+			 @RequestParam(value="sendContent",required=false) String sendContent,
+			 @RequestParam(value="current",required=false) Integer current,
+			 @RequestParam(value="size",required=false) Integer size
+			){
+		Map<String,Object> map = Maps.newHashMap();
+		map.put("sendUser", sendUser);
+		map.put("receiveUser", receiveUser);
+		map.put("sendTitle", sendTitle);
+		map.put("sendContent", sendContent);
+		map.put("current", current);
+		map.put("size", size);
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS, iMessageService.searchMessage(map));
+	}
+	
+	/**
 	 * @Title uodateMessage
 	 * @param message
 	 * @description 更新消息
@@ -79,7 +114,7 @@ public class MessageController {
 	 * @description 删除消息
 	 * @return
 	 */
-	@GetMapping("/delete")
+	@PostMapping("/delete")
 	protected Object deleteMessages(@RequestParam Long[] ids){
 		return ResultfulFactory
 				.getInstance()

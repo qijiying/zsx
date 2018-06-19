@@ -11,11 +11,11 @@ import com.zsx.model.pojo.User;
 
 public interface UserMapper extends BaseMapper<User> {
 
-	List<User> selectUserByPage(Page<User> page);
-
 	List<User> selectUserByUserAreaTimeAndPage(@Param("name") String name,@Param("areaCode") Integer areaCode,@Param("source") Integer source,@Param("startTime") Date startTime,@Param("endTime") Date endTime,
 			Page<User> page);
 
 	int selectTotalUserByUserAreaTimeAndPage(@Param("name") String name,@Param("areaCode") Integer areaCode,@Param("source") Integer source,@Param("startTime") Date startTime,@Param("endTime") Date endTime,
 			Page<User> page);
+
+	List<User> selectUserByPage(Page<User> page);
 }

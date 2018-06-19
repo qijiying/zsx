@@ -31,6 +31,7 @@ public class SysUserController {
 	
 	@Autowired
 	private ISysUserService iSysUserService;
+
 	
 	/**
 	 * @Title insertSysUser

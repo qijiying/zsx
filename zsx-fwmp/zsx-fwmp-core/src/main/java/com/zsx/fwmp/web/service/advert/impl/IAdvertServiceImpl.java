@@ -29,6 +29,7 @@ public class IAdvertServiceImpl extends ServiceImpl<AdvertMapper,Advert> impleme
 	@Autowired
 	AdvertMapper advertMapper;
 	
+
 	@Override
 	public Page<Advert> selectAdByAreadAndPostionPage(Advert advert, Page<Advert> page) {
 		return advertMapper.selectAdByAreadAndPostionPage(advert, page);

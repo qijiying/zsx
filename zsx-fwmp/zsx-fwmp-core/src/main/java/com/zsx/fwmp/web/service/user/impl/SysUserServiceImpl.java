@@ -1,5 +1,6 @@
 package com.zsx.fwmp.web.service.user.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.zsx.dao.user.system.SysUserMapper;
 import com.zsx.fwmp.web.others.base.Log;
+import com.zsx.fwmp.web.others.jwt.JWT;
 import com.zsx.fwmp.web.others.util.UserUtil;
 import com.zsx.fwmp.web.service.user.ISysUserService;
 import com.zsx.model.pojo.SysUser;
@@ -61,8 +63,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			Log.debug("------------登录名正确："+sysUser.getLoginName()+"-------------", SysUserServiceImpl.class);
 			if(UserUtil.Md5Password(sysUser.getLoginPass(), sys.get(0).getSalt()).equals(sys.get(0).getLoginPass())){
 				Log.debug("----------------密码正确-------------", SysUserServiceImpl.class);
+				String token = JWT.sign(sysUser, 60L* 1000L* 30L);
+				Log.debug("token:"+token, SysUserServiceImpl.class);
 				map.put("sysUser", sys);
 				map.put("code", 1);
+				map.put("token", token);
 				req.getSession().setAttribute("sysUser",sys);
 			}
 			else{
@@ -71,6 +76,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		}
 		return map;
 	}
+	
+
 
 	/**
 	 * @Title deleteSysUser
