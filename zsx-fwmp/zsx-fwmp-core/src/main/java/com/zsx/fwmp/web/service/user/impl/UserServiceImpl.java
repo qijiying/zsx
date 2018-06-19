@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +34,7 @@ import com.zsx.dao.user.UserMapper;
 import com.zsx.dao.user.UserThumbUpMapper;
 import com.zsx.dao.user.UserTransmitMapper;
 import com.zsx.framework.base.BaseAppClass;
+import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.base.ConstantClass;
 import com.zsx.fwmp.web.others.base.Log;
@@ -402,5 +404,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 		return selectList(new EntityWrapper<User>());
 	}
 	
+	
+
+	@Override
+	public User getCacheUser(Long id) {
+		User user=Optional.ofNullable(selectById(id)).orElseThrow(()->new SystemException(ResultEnum.CACHE_BASE_DATA_ERROR));
+		System.out.println("=================begin==========================");
+		System.out.println(user);
+			Log.debug("获取缓存的用户ID:{"+id+"}，用户信息：{"+user.toString()+"}", UserServiceImpl.class);
+		return user;
+	}
 	
 }

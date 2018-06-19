@@ -51,6 +51,7 @@ public class VideoUtil {
 	 * @return File
 	 * 返回类型 @throws
 	 */
+	@SuppressWarnings("unused")
 	public FileDto handle(String fileName,byte[] bytes,Long size, FileManage fileManage,FileManageServiceImpl fileManageServiceImpl)throws Exception {
 		
 		

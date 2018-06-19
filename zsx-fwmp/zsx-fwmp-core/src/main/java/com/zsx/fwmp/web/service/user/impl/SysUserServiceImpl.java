@@ -1,6 +1,5 @@
 package com.zsx.fwmp.web.service.user.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -54,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @description 登录业务实现
 	 */
 	@Override
-	public Object login(SysUser sysUser,HttpServletRequest req) {
+	public Map<String,Object> login(SysUser sysUser,HttpServletRequest req) {
 		Map<String,Object> map = Maps.newHashMap();
 		map.put("login_name", sysUser.getLoginName());
 		List<SysUser> sys = sysUserMapper.selectByMap(map);
@@ -102,6 +103,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		if(null!=request.getSession().getAttribute("user"))
 			request.getSession().removeAttribute("user");
 		return true;
+	}
+
+	/**
+	 * @Title searchSysUser 
+	 * @see com.zsx.fwmp.web.service.user.ISysUserService#searchSysUser(java.util.Map)
+	 * @description 搜索业务实现类
+	 */
+	@Override
+	public Page<SysUser> searchSysUser(Map<String, Object> map) {
+		String key = (String)map.get("key");
+		Integer current = (Integer)map.get("current");
+		Integer size = (Integer)map.get("size");
+		String limit = "LIMIT "+(current-1)*size+","+size;
+		List<SysUser> sysUserList = selectList(new EntityWrapper<SysUser>()
+				                                     .like("login_name", key)
+				                                     .or()
+				                                     .like("nick_name", key)
+				                                     .last(limit));
+		
+		Integer count = selectCount(new EntityWrapper<SysUser>()
+													  .like("login_name", key)
+													  .like("nick_name", key));
+		Page<SysUser> page = new Page<SysUser>(current,size);
+		page.setTotal(count);
+		page.setRecords(sysUserList);
+		return page;
 	}
 
 }

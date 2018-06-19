@@ -31,4 +31,6 @@ public interface IUserService extends IService<User>{
 
 	Object dataAllUserNameAndId();
 
+	User getCacheUser(Long receiveUserId);
+
 }

@@ -1,9 +1,10 @@
 package com.zsx.fwmp.web.controller.user;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.base.ResultWebEnum;
@@ -57,9 +59,8 @@ public class SysUserController {
 	 */
 	@PostMapping("/login")
 	protected Object login(@RequestBody SysUser sysUser,HttpServletRequest req){
-		return ResultfulFactory.getInstance()
-				.creator(ResultEnum.SUCCESS
-						, iSysUserService.login(sysUser,req));
+		Map<String,Object> map = iSysUserService.login(sysUser,req);
+		return map;
 	}
 	
 	
@@ -83,12 +84,36 @@ public class SysUserController {
 	
 	
 	/**
+	 * @Title SysUserSearch
+	 * @param key
+	 * @param current
+	 * @param size
+	 * @description 系统用户搜索接口
+	 * @return
+	 */
+	@PostMapping("/search")
+	protected Object SysUserSearch(
+            @RequestParam(value="key",required=false) String key,
+            @RequestParam(value="current",required=false) Integer current,
+            @RequestParam(value="size",required=false) Integer size
+			){
+		Map<String,Object> map = Maps.newHashMap();
+		map.put("key", key);
+		map.put("current", current==null?1:current);
+		map.put("size", size==null?10:size);
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS, iSysUserService.searchSysUser(map));
+	}
+	
+	
+	/**
 	 * @Title deleteSysUser
 	 * @param ids
 	 * @description 批量删除系统用户
 	 * @return
 	 */
-	@GetMapping("/delete")
+	@PostMapping("/delete")
 	protected Object deleteSysUser(@RequestParam("ids") Integer[] ids){
 		return ResultfulFactory
 				.getInstance()

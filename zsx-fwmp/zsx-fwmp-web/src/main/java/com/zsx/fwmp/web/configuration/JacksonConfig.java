@@ -3,8 +3,6 @@ package com.zsx.fwmp.web.configuration;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +19,6 @@ import com.zsx.utils.date.DateUtils;
 
 @Configuration
 public class JacksonConfig {
-	
-	private static Logger logger=LoggerFactory.getLogger(JacksonConfig.class);
 	
     @Bean
     @Primary

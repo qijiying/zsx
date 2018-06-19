@@ -14,6 +14,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
+import com.zsx.fwmp.web.others.enums.MessageEnum;
+import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.message.IMessageService;
 import com.zsx.model.pojo.Message;
 
@@ -29,6 +31,20 @@ public class MessageController {
 
 	@Autowired
 	private IMessageService iMessageService;
+	
+	
+	@PostMapping("/send")
+	protected Object sendMessage(@RequestBody Message message){
+		Assert.isNull(message.getSendUserId(),message.getReceiveUserId(),message.getMessageType());
+		
+		if(!message.getMessageType().equals(MessageEnum.PRIVATE_LETTER.getKey())){  //私信不校验
+			if(!iMessageService.checkMessageSended(message.getSendUserId(), message.getReceiveUserId(), message.getMessageType())){
+				return ResultfulFactory.getInstance().creator(ResultEnum.CHECK_MESSAGE_EXISTS);
+			}
+		}
+		iMessageService.sendMessage(message);
+		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS);
+	}
 	
 	/**
 	 * @Title addMessage

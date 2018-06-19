@@ -116,7 +116,8 @@ public class RedisConfig extends CachingConfigurerSupport{
           * @return JedisConnectionFactory    返回类型 
           * @throws
          */
-        @Bean
+        @SuppressWarnings("deprecation")
+		@Bean
         public JedisConnectionFactory redisConnectionFactory() {
         	//JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory(getRedisCluster());
             JedisConnectionFactory redisConnectionFactory = new JedisConnectionFactory();

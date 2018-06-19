@@ -8,7 +8,11 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.zsx.framework.exception.SystemException;
+import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.framework.redis.RedisUtil;
+import com.zsx.thirdparty.base.constant.ThirdpartyConstant;
+import com.zsx.thirdparty.jpush.abs.AbstractJPush;
 import com.zsx.utils.date.DateUtils;
 
 /**
@@ -106,6 +110,33 @@ public class UserUtil {
 	 */
 	public static String Md5Password(String password,String salt){
 		return new SimpleHash("MD5", password, salt, 1).toHex();
+	}
+	
+	
+	/**
+	 * 平台选型别名推送
+	 * @param abstractJPush
+	 * @param ailge
+	 * @param userSoucre
+	 * @param title
+	 * @param message
+	 */
+	public static void jpush(AbstractJPush abstractJPush,String ailge, String title,String message) {
+		System.out.println("==============jpush=================");
+		System.out.println(abstractJPush);
+		System.out.println(ailge);
+		System.out.println(title);
+		System.out.println(message);
+		abstractJPush.setTitle(title);
+		abstractJPush.setMessage(message);
+		if(ThirdpartyConstant.profilesVlaue.equals("prod")){
+			abstractJPush.setEnvironment(true); 
+		}else if(ThirdpartyConstant.profilesVlaue.equals("test")){
+			abstractJPush.setEnvironment(false); 
+		}else{
+			throw new SystemException(ResultEnum.SYSTEM_LOAD_PROPERTIES_DATA_IS_NULL);
+		}
+		abstractJPush.pushMessageAllOfAilas(ailge);
 	}
 	
 	
