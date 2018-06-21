@@ -1,7 +1,6 @@
 package com.zsx.fwmp.web.service.user.impl;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,6 +33,7 @@ import com.zsx.dao.user.UserMapper;
 import com.zsx.dao.user.UserThumbUpMapper;
 import com.zsx.dao.user.UserTransmitMapper;
 import com.zsx.framework.base.BaseAppClass;
+import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.base.ConstantClass;
@@ -59,6 +59,7 @@ import com.zsx.model.pojo.UserFriend;
 import com.zsx.model.pojo.UserThumbUp;
 import com.zsx.model.pojo.UserTransmit;
 import com.zsx.model.pojo.UserTxtFeedback;
+import com.zsx.thirdparty.ringletter.IRingletterUserService;
 import com.zsx.utils.id.IdGen;
 
 /**
@@ -119,6 +120,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	@Autowired
 	private FileManageMapper fileMapper;
 	
+	@Autowired
+	IRingletterUserService iRingletterUserService;  //环信API
+	
 
 	/** 
 	 * @Title insertUser
@@ -136,7 +140,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 		//初始化用户id
 		user.setId(BaseAppClass.giveRandomId());
 		user.setTinkleId(BaseAppClass.giveTinkleId());
-		return userMapper.insert(user);
+		userMapper.insert(user);
+		
+		Assert.isNull(user.getId(),ResultEnum.SERVER_USER_EXISTS);
+		iRingletterUserService.registerUser(user.getId().toString(), user.getLoginPassword(), user.getNickName()); //注册环信IM用户
+		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS);
 	}
 
 	/**
@@ -172,13 +180,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	 * @description 搜索用户
 	 */
 	@Override
-	public Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode,String source, Date startTime, Date endTime,
-			Page<User> page) {
+	public Object selectUserByUserAreaTimeAndPage(Map<String,Object> map) {
+		String name = (String)map.get("name");
+		//Integer areaCode = (Integer)map.get("areaCode");
+		String source = (String)map.get("source");
+		Integer current = (Integer)map.get("current");
+		Integer size = (Integer)map.get("size");
+		//Date startTime Date endTime
 		Integer flag = userSource(source);
-		List<User> list = userMapper.selectUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
+		String limit = "LIMIT "+(current-1)*size+","+size;
+		List<User> list = userMapper.selectList(new EntityWrapper<User>()
+									.like("login_username", name)
+									.or()
+									.like("nick_name", name)
+									.where("app_soucre={0}", flag)
+									.last(limit));
 		updateFileColumn(list);
+		Page<User> page = new Page<>();
 		page.setRecords(list);
-		int total = userMapper.selectTotalUserByUserAreaTimeAndPage(name,areaCode,flag,startTime,endTime,page);
+		int total = userMapper.selectCount(new EntityWrapper<User>()
+								.like("login_username", name)
+								.or()
+								.like("nick_name", name)
+								.where("app_soucre={0}", flag));
 		page.setTotal(total);
 		return page;
 	}

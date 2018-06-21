@@ -1,6 +1,5 @@
 package com.zsx.fwmp.web.service.user;
 
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +10,7 @@ import com.zsx.model.pojo.User;
 
 public interface IUserService extends IService<User>{
 
-	Object selectUserByUserAreaTimeAndPage(String name, Integer areaCode,String source, Date startTime, Date endTime, Page<User> page);
+	Object selectUserByUserAreaTimeAndPage(Map<String,Object> map);
 
 	Object insertUser(User user);
 

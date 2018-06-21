@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.framework.redis.RedisUtil;
+import com.zsx.fwmp.web.others.base.Log;
 import com.zsx.thirdparty.base.constant.ThirdpartyConstant;
 import com.zsx.thirdparty.jpush.abs.AbstractJPush;
 import com.zsx.utils.date.DateUtils;
@@ -127,6 +128,7 @@ public class UserUtil {
 		System.out.println(ailge);
 		System.out.println(title);
 		System.out.println(message);
+		Log.debug("abstractJpush:"+abstractJPush+"/n ailge "+ailge+"/n title:"+title+"/n message:"+message,UserUtil.class);
 		abstractJPush.setTitle(title);
 		abstractJPush.setMessage(message);
 		if(ThirdpartyConstant.profilesVlaue.equals("prod")){
@@ -139,5 +141,29 @@ public class UserUtil {
 		abstractJPush.pushMessageAllOfAilas(ailge);
 	}
 	
+	
+	/**
+	 * @Title jpushTitle
+	 * @param abstractJPush
+	 * @param tag
+	 * @param title
+	 * @param message
+	 * @description 根据tag推送
+	 */
+	public static void jpushTitle(AbstractJPush abstractJPush,String tag, String title,String message) {
+		System.out.println("==============jpush=================");
+		Log.debug("abstractJpush:"+abstractJPush+"---tag "+tag+"---title:"+title+"---message:"+message,UserUtil.class);
+		abstractJPush.setTitle(title);
+		abstractJPush.setMessage(message);
+		if(ThirdpartyConstant.profilesVlaue.equals("prod")){
+			abstractJPush.setEnvironment(true); 
+		}else if(ThirdpartyConstant.profilesVlaue.equals("test")){
+			abstractJPush.setEnvironment(false); 
+		}else{
+			throw new SystemException(ResultEnum.SYSTEM_LOAD_PROPERTIES_DATA_IS_NULL);
+		}
+		if(tag!="") abstractJPush.pushMessageAllOfTagAndTitle(tag);
+		
+	}
 	
 }

@@ -2,6 +2,7 @@ package com.zsx.fwmp.web.others.base;
 
 public class ConstantClass {
 
+	//------------------------------------------------------------------------------------------------------------------------------//
 	
 	/**
 	 * 用户添加的来源-web
@@ -41,6 +42,9 @@ public class ConstantClass {
 	 */
 	public static final String USER_SOURCE_KEY_IOS = "ios";
 	
+ 
+	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	/**
 	 * 标志1
 	 */
@@ -51,10 +55,16 @@ public class ConstantClass {
 	 */
 	public static final Integer TWO_FLAG = 2;
 	
+	
+	//------------------------------------------------------------------------------------------------------------------------------//
+	
 	/**
 	 * session持续时间 30分钟
 	 */
 	public static final Integer MAXINACTIVE_SESSION = 60*30;
+	
+	
+	//------------------------------------------------------------------------------------------------------------------------------//
 	
 	/**
 	 * 删除失败返回信息（汉字）
@@ -65,6 +75,37 @@ public class ConstantClass {
 	 * 是否成功
 	 */
 	public static final String WHETHER_SUCCESS = "是否成功";
+	
+	
+	//---------------------------------------------点赞类型---------------------------------------------------------------------------------//
+	
+	/**
+	 * 新闻评论
+	 */
+	public static final Integer THUMB_UP_NEWS_REPLY = 1;
+	
+	/**
+	 * 新闻回复
+	 */
+	public static final Integer THUMB_UP_NEWS_COMMENT = 2;
+	
+	/**
+	 * 帖子评论
+	 */
+	public static final Integer THUMB_UP_POST_REPLY = 3;
+	
+	/**
+	 * 帖子回复
+	 */
+	public static final Integer THUMB_UP_POST_COMMENT = 4;
+	
+	/**
+	 * 帖子
+	 */
+	public static final Integer THUMB_UP_POST = 5;
+	
+	
+	
 	
 	
 }

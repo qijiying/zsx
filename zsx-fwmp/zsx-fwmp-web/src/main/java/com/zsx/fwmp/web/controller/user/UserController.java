@@ -97,12 +97,19 @@ public class UserController {
 			 @RequestParam(value="current",required=false) Integer current,
 			 @RequestParam(value="size",required=false) Integer size
 			){
+		Map<String,Object> map = Maps.newHashMap();
+		map.put("name", name);
+		map.put("areaCode", areaCode);
+		map.put("startTime", startTime);
+		map.put("source", source);
+		map.put("endTime", endTime);
+		map.put("current", current==null?1:current);
+		map.put("size", size==null?10:size);
 		return ResultfulFactory
 				.getInstance()
 				.creator(ResultEnum
 						.SUCCESS,iUserService
-						.selectUserByUserAreaTimeAndPage(name,areaCode,source,startTime,endTime
-								,new Page<>(current==null?1:current, size==null?10:size)));
+						.selectUserByUserAreaTimeAndPage(map));
 	}
 	
 	

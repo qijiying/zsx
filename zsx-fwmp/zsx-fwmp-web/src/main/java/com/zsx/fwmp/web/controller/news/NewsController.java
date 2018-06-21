@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
@@ -38,7 +39,10 @@ public class NewsController {
 			){
 		return ResultfulFactory
 				.getInstance()
-				.creator(ResultEnum.SUCCESS,newsService.selectPage(new Page<>(current==null?1:current, size==null?10:size)));
+				.creator(ResultEnum.SUCCESS,newsService
+						.selectPage(new Page<>(current==null?1:current
+								, size==null?10:size)
+								,new EntityWrapper<News>().orderBy("create_time", false)));
 	}
 	
 	
