@@ -30,8 +30,8 @@ public class JPushServiceImpl implements JPushService {
 	 * @description 一推一业务实现类
 	 */
 	@Override
-	public Object sendOtoO(String title, Long sendId, Long receiveId, String content) {
-		User user= iUserService.getCacheUser(sendId);
+	public Object sendToOne(String title, Long receiveId, String content) {
+		User user= iUserService.getCacheUser(receiveId);
 		try {
 			if(null != user.getAppSoucre()){
 				UserUtil.jpushTitle(user.getAppSoucre().equals(1)?iosJpushService:androidJpushService,receiveId.toString(),title, content);

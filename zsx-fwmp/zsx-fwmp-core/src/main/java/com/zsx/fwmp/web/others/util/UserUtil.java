@@ -3,6 +3,7 @@ package com.zsx.fwmp.web.others.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,23 @@ public class UserUtil {
 	
 	@Autowired
 	RedisUtil redisUtil;
+	
+	
+	
+	/**
+	  * 
+	  * @Title: isInteger 
+	  * @Description: 判断参数是否为数字 
+	  * @param @param str
+	  * @param @return    设定文件 
+	  * @return boolean    返回类型 
+	  * @throws
+	 */
+	public static boolean isInteger(String str) {  
+       Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  
+       return pattern.matcher(str).matches();  
+	}
+	
 
 	/**
 	 * 

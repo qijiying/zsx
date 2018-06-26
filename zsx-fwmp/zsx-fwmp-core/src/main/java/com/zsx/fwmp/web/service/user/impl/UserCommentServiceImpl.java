@@ -1,6 +1,7 @@
 package com.zsx.fwmp.web.service.user.impl;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -67,6 +68,12 @@ public class UserCommentServiceImpl implements IUserCommentService {
 		if(null != page.getRecords() && page.getRecords().size() >0){  //排序，后期优化
 			 Collections.sort(page.getRecords(), (o1, o2) -> (o2.getCommentTime().compareTo(o1.getCommentTime())));  
 		}
+		return page;
+	}
+
+	@Override
+	public Page<UserCommentOfPostDto> searchComment(Long userId,String content, Date createTime, Page<UserCommentOfPostDto> page) {
+        //todo 搜索用户评论
 		return page;
 	}
 }

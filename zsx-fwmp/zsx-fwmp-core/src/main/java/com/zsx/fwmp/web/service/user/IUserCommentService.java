@@ -1,5 +1,7 @@
 package com.zsx.fwmp.web.service.user;
 
+import java.util.Date;
+
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zsx.model.dto.UserCommentOfPostDto;
 
@@ -28,5 +30,15 @@ public interface IUserCommentService {
 	  * @throws
 	 */
 	Page<UserCommentOfPostDto> getUserCommentOfNewsByUserId(Long userId, Page<UserCommentOfPostDto> page);
+
+	/**
+	 * @Title searchComment
+	 * @description 搜索用户评论
+	 * @param content
+	 * @param createTime
+	 * @param page
+	 * @return
+	 */
+	Page<UserCommentOfPostDto> searchComment(Long userId,String content, Date createTime, Page<UserCommentOfPostDto> page);
 
 }

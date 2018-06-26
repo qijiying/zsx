@@ -21,6 +21,7 @@ import com.zsx.fwmp.web.others.listener.PropertiesListenerConfig;
 import com.zsx.fwmp.web.others.util.UserUtil;
 import com.zsx.fwmp.web.service.message.IMessageService;
 import com.zsx.fwmp.web.service.user.IUserService;
+import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
 import com.zsx.model.pojo.User;
 
@@ -127,6 +128,22 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
 		Page<Message> page = new Page<>(current,size);
 		page.setRecords(messageList);
 		page.setTotal(count);
+		return page;
+	}
+	
+	
+	/**
+	  * (非 Javadoc) 
+	  * <p>Title: getMessagePage</p> 
+	  * <p>Description: </p> 
+	  * @param type
+	  * @param page
+	  * @return 
+	  * @see com.zsx.service.message.IMessageService#getMessagePage(java.lang.Integer, com.baomidou.mybatisplus.plugins.Page)
+	 */
+	@Override
+	public Page<MessageDto> getMessagePage(Long userId,Integer type, Page<MessageDto> page) {
+		page.setRecords(messageMapper.getMessagePage(userId,type,page));
 		return page;
 	}
 

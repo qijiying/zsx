@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,12 @@ import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.enums.MessageEnum;
 import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.message.IMessageService;
+import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * @ClassName MessageController
@@ -135,6 +141,36 @@ public class MessageController {
 		return ResultfulFactory
 				.getInstance()
 				.creator(ResultEnum.SUCCESS, iMessageService.deleteMessageByIds(ids));
+	}
+	
+	
+	/**
+	  * 
+	  * @Title: getMessage 
+	  * @Description: 获取用户消息
+	  * @param @param userId
+	  * @param @param messageType
+	  * @param @param current
+	  * @param @param size
+	  * @param @return    设定文件 
+	  * @return Object    返回类型 
+	  * @throws
+	 */
+	@ApiOperation(
+			value="获取用户消息", 
+			notes="获取用户消息")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="userId",value="用户ID",required=true,paramType="path",dataType="int"),
+		@ApiImplicitParam(name="t",value="消息类型",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="c",value="当前页码",required=true,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="s",value="数据个数",required=true,paramType="query",dataType="int")
+	})
+	@GetMapping("/{userId}")
+	public Object getMessage(@PathVariable Long userId,
+			@RequestParam(value="t",required=false) Integer messageType,
+			@RequestParam("c")Integer current,
+			@RequestParam("s")Integer size){
+		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,iMessageService.getMessagePage(userId,messageType, new Page<MessageDto>(current, size)));
 	}
 	
 }

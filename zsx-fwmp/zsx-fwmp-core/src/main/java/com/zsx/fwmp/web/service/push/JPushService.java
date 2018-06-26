@@ -12,7 +12,7 @@ public interface JPushService {
 	 * @description 一推一service接口 
 	 * @return
 	 */
-	Object sendOtoO(String title, Long sendId, Long receiveId, String content);
+	Object sendToOne(String title, Long receiveId, String content);
 
 	/**
 	 * @Title sendAll

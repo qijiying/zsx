@@ -30,14 +30,13 @@ public class PushController {
 	 * @description 一推一
 	 * @return
 	 */
-	@PostMapping("/sendOtoO")
+	@PostMapping("/sendToOne")
 	protected Object sendOToO(
 			@RequestParam String title,
-			@RequestParam Long sendId,
 			@RequestParam Long receiveId,
 			@RequestParam(value="content",required=false) String content
 			){
-		return jPushService.sendOtoO(title,sendId,receiveId,content);
+		return jPushService.sendToOne(title,receiveId,content);
 	}
 	
 	

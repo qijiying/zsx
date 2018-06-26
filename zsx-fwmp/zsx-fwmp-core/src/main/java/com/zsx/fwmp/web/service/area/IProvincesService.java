@@ -7,4 +7,6 @@ public interface IProvincesService extends IService<Provinces> {
 
 	Object selectProvincesList();
 
+	String getCodeByProvincesName(String privincesCode);
+
 }

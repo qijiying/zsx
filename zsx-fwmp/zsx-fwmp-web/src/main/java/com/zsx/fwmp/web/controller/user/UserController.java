@@ -23,6 +23,10 @@ import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.user.IUserService;
 import com.zsx.model.pojo.User;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @ClassName UserController
  * @description 用户注册与登录相关接口
@@ -45,6 +49,12 @@ public class UserController {
 	  * @return json    返回类型 
 	  * @throws
 	 */
+	@ApiOperation(
+			value="创建用户 ", 
+			notes="创建用户 ")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="user",value="用户",required=true,paramType="path",dataType="User")
+	})
 	@PostMapping("/add")
 	protected Object registerUser(@RequestBody User user){
 		return ResultfulFactory
@@ -59,6 +69,15 @@ public class UserController {
 	 * @return
 	 * @description 分页查询用户
 	 */
+	@ApiOperation(
+			value="分页初始化用户列表",
+			notes="分页初始化用户列表"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="source",value="用户来源，ios，Android，web",required=false,paramType="path",dataType="String"),
+		@ApiImplicitParam(name="current",value="当前页数",required=false,paramType="query",dataType="Integer"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="Integer")
+	})
 	@PostMapping("/dataGrid")
 	protected Object selectUserByPage(
 			 @RequestParam(value="source",required=false) String source,
@@ -87,6 +106,19 @@ public class UserController {
 	 * @description 分页搜索用户
 	 * @return
 	 */
+	@ApiOperation(
+			value="分页搜索用户",
+			notes="分页搜索用户"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="name",value="用户的登录名、昵称、实名",required=false,paramType="path",dataType="String"),
+		@ApiImplicitParam(name="areaCode",value="区域code",required=false,paramType="path",dataType="int"),
+		@ApiImplicitParam(name="startTime",value="注册大于的时间",required=false,paramType="path",dataType="Date"),
+		@ApiImplicitParam(name="endTime",value="注册小于的时间",required=false,paramType="path",dataType="Date"),
+		@ApiImplicitParam(name="source",value="用户来源，ios，Android，web",required=false,paramType="path",dataType="String"),
+		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int")
+	})
 	@PostMapping("/dataSearch")
 	protected Object selectUserByUserAreaTimeAndPage(
 			 @RequestParam(value="name",required=false) String name,
@@ -118,6 +150,10 @@ public class UserController {
 	 * @description 查找用所有用户，不分页
 	 * @return
 	 */
+	@ApiOperation(
+			value="查找所有用户",
+			notes="查找所有用户"
+			)
 	@GetMapping("/all/user")
 	protected Object dataUserNameAndId(){
 		return ResultfulFactory
@@ -134,6 +170,11 @@ public class UserController {
 	  * @return json    返回类型 
 	  * @throws
 	 */
+	@ApiOperation(
+			value="更新用户",
+			notes="更新用户"
+			)
+	@ApiImplicitParam(name="user",value="用户",required=true,paramType="path",dataType="User")
 	@PostMapping("/update")
 	protected Object updateUser(@RequestBody User user){
 		return ResultfulFactory
@@ -149,6 +190,11 @@ public class UserController {
 	 * @description 删除用户
 	 * @return
 	 */
+	@ApiOperation(
+			value="批量删除用户",
+			notes="批量删除用户"
+			)
+	@ApiImplicitParam(name="ids",value="用户ID数组",required=true,paramType="path",dataType="Long[]")
 	@PostMapping("/delete")
 	protected Object deleteUser(@RequestParam Long[] ids){
 		return ResultfulFactory
@@ -163,6 +209,15 @@ public class UserController {
 	 * @description 根据用户id查找用户friend
 	 * @return
 	 */
+	@ApiOperation(
+			value="根据用户ID查找friend",
+			notes="根据用户ID查找friend"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="userId",value="用户ID",required=true,paramType="path",dataType="User"),
+		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int")
+	})
 	@PostMapping("/friend/{userId}")
 	protected Object searchUserFriend(
 			@PathVariable("userId")Long userId,
@@ -177,6 +232,10 @@ public class UserController {
 				.getInstance()
 				.creator(ResultEnum.SUCCESS, iUserService.searchUserFriend(userId,map));
 	}
+	
+	
+	
+	
 	
      /**
 	 * @Title login

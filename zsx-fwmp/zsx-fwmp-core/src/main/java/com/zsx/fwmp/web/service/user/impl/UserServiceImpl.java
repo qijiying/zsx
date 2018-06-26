@@ -225,7 +225,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 			if(count==0){
 				return page;
 			}
-			List<User> list = userMapper.selectUserByPage(page);
+			String limit = " LIMIT "+(current-1)*size+","+size;
+			List<User> list = userMapper.selectList(wrapper.last(limit).orderBy(" create_time desc "));
 			updateFileColumn(list);
 			page.setRecords(list);
 			page.setTotal(count);
@@ -276,7 +277,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	private Page<User> getUserListBySource(Integer flag,Map<String,Object> map) {
 		Integer current=(Integer) map.get("current");
 		Integer size=(Integer) map.get("size");
-		String limit = " limit "+current+","+size;
+		String limit = " limit "+(current-1)*size+","+size;
 		Page<User> page=new Page<>();
 		String sql = " app_soucre="+flag;
 		//app用户标志  -3
