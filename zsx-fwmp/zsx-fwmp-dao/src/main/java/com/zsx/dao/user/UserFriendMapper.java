@@ -13,4 +13,6 @@ public interface UserFriendMapper extends BaseMapper<UserFriend> {
 
 	List<User> getHailFellow(@Param("userId")Long userId, Page<User> page);
 
+	List<User> getAllHailFellow(@Param("userId") Long userId);
+
 }

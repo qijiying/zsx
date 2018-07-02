@@ -10,7 +10,7 @@ import com.zsx.model.pojo.News;
 
 public interface NewsMapper extends BaseMapper<News> {
 
-	Integer releaseNewsByIds(@Param("ids")Long[] ids);
+	Integer releaseNewsByIds(@Param("ids")Long[] ids, @Param("date")String date);
 
 	List<News> searchNewsPages(@Param("news")News news, Page<News> page);
 

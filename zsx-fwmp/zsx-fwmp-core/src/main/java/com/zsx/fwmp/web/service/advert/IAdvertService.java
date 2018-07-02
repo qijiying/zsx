@@ -35,5 +35,8 @@ public interface IAdvertService extends IService<Advert> {
 
 
 	public Page<AdvertDto> selectAdByPage(Integer current,Integer size);
+
+
+	public Object deleteAdverts(Long[] ids);
 }
 

@@ -99,17 +99,17 @@ public class PostServiceImpl extends ServiceImpl<PostMapper,Post> implements IPo
 					}else{
 						//如果是视频，则返回fileVideoImage字段
 						if(fileDtoList.get(i).getFileType()==2){
-							fileDtoList.get(i).setFileVideoImage(ServerBase.getServer()+itemF.getFilePath()+fileDtoList.get(i).getFileVideoImage());
+							fileDtoList.get(i).setFileVideoImage(fileDtoList.get(i).getFileVideoImage());
 						}
 						//因为当i=0时，i不能--，所以额外处理i等于1的数据
 						if(i==0&&flag==ConstantClass.TWO_FLAG&&itemF.getFileList().size()>1&&itemF.getFileList().get(1).getFileStyle()==2)
-							fileDtoList.get(1).setFileName(ServerBase.getServer()+itemF.getFilePath()+fileDtoList.get(1).getFileName());
+							fileDtoList.get(1).setFileName(fileDtoList.get(1).getFileName());
 						   
 						if(flag==ConstantClass.TWO_FLAG&&fileDtoList.size()>1&&fileDtoList.get(i).getFileStyle()!=2){
 							fileDtoList.remove(i);
 							//list操作remove后长度减一,如果i=0，则减一会出异常，需额外处理
 							if(i!=0)i--;
-						}else fileDtoList.get(i).setFileName(ServerBase.getServer()+itemF.getFilePath()+fileDtoList.get(i).getFileName());
+						}else fileDtoList.get(i).setFileName(fileDtoList.get(i).getFileName());
 						
 						groupId = fileDtoList.get(i).getFileGroupIds().toString();
 					}

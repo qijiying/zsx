@@ -1,5 +1,7 @@
 package com.zsx.fwmp.web.service.push;
 
+import com.zsx.model.pojo.Message;
+
 public interface JPushService {
 
 	/**
@@ -12,7 +14,7 @@ public interface JPushService {
 	 * @description 一推一service接口 
 	 * @return
 	 */
-	Object sendToOne(String title, Long receiveId, String content);
+	Object sendToOne(Message message, String appSource);
 
 	/**
 	 * @Title sendAll
@@ -24,6 +26,8 @@ public interface JPushService {
 	Object sendAll(String title, String content);
 
 	Object sendAreas(String title, String content, Integer areaCode, Integer[] areas);
+
+	Message saveMessage(Message message);
 
 
 

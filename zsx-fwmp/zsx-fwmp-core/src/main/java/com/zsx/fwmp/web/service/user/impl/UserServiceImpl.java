@@ -187,22 +187,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 		Integer current = (Integer)map.get("current");
 		Integer size = (Integer)map.get("size");
 		//Date startTime Date endTime
-		Integer flag = userSource(source);
+		String flag = userSource(source).toString();
+		if(flag.equals("-3")) {
+			flag="app_soucre!=3";
+		}else{
+			flag= "app_soucre="+flag;
+		}
+		System.out.println(flag);
 		String limit = "LIMIT "+(current-1)*size+","+size;
 		List<User> list = userMapper.selectList(new EntityWrapper<User>()
 									.like("login_username", name)
 									.or()
 									.like("nick_name", name)
-									.where("app_soucre={0}", flag)
+									.where(flag)
 									.last(limit));
-		updateFileColumn(list);
+		//updateFileColumn(list);  //图片地址拼接转由前台处理
 		Page<User> page = new Page<>();
 		page.setRecords(list);
 		int total = userMapper.selectCount(new EntityWrapper<User>()
 								.like("login_username", name)
 								.or()
 								.like("nick_name", name)
-								.where("app_soucre={0}", flag));
+								.where(flag));
 		page.setTotal(total);
 		return page;
 	}
@@ -227,7 +233,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 			}
 			String limit = " LIMIT "+(current-1)*size+","+size;
 			List<User> list = userMapper.selectList(wrapper.last(limit).orderBy(" create_time desc "));
-			updateFileColumn(list);
+			//updateFileColumn(list);   //图片地址改为由前台拼接
 			page.setRecords(list);
 			page.setTotal(count);
 		}else{
@@ -284,7 +290,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 		if(flag==-3) sql = " app_soucre="+ConstantClass.USER_SOURCE_IOS+" or app_soucre="+ConstantClass.USER_SOURCE_ANDROID;
 		List<User> list = userMapper.selectList(new EntityWrapper<User>().where(sql).last(limit));
 		int count=userMapper.selectCount(new EntityWrapper<User>().where(sql));
-		updateFileColumn(list);
+		//updateFileColumn(list);  //图片地址改为由前台拼接
 		page.setRecords(list);
 		page.setTotal(count);
 		return page;
@@ -383,6 +389,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements IUs
 	public Page<User> searchUserFriend(Long userId,Map<String,Object> map) {
 		Integer current = (Integer)map.get("current");
 		Integer size = (Integer)map.get("size");
+		String isEntire = (String)map.get("isEntire");		
+		if("all".equals(isEntire)){
+			Log.debug("返回用户的全部朋友数据", UserServiceImpl.class);
+			List<User> user = userFriendMapper.getAllHailFellow(userId);
+			Page<User> page = new Page<>();
+			page.setRecords(user);
+			page.setTotal(user.size());
+			return page;
+		}
 		Page<User> page = new Page<>(current,size);
 		List<User> user = userFriendMapper.getHailFellow(userId,page);
 		page.setRecords(user);

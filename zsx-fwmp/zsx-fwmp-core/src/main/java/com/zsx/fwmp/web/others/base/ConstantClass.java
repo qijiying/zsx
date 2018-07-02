@@ -94,18 +94,16 @@ public class ConstantClass {
 	 */
 	public static final Integer THUMB_UP_POST_REPLY = 3;
 	
-	/**
-	 * 帖子回复
-	 */
+	 /**帖子回复**/
 	public static final Integer THUMB_UP_POST_COMMENT = 4;
 	
-	/**
-	 * 帖子
-	 */
+	 /**帖子   */
 	public static final Integer THUMB_UP_POST = 5;
 	
 	
+//--------------------------------------------------------------------------------------------------------------------------//
 	
-	
+	/**头部信息**/
+	public static final String USER_SOUCRE="UserSoucre";
 	
 }

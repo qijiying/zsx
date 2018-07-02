@@ -14,6 +14,10 @@ import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.advert.IAdvertService;
 import com.zsx.model.pojo.Advert;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author lz
  * @description 广告相关的处理类
@@ -33,6 +37,11 @@ public class AdvertController {
 	 * @return Object
 	 * @description 插入广告
 	 */
+	@ApiOperation(
+			value="后台新增广告",
+			notes="后台新增广告"
+			)
+	@ApiImplicitParam(name="advert",value="广告实体类",required=true,paramType="path",dataType="Advert")
 	@PostMapping("/add")
 	protected Object insertAdvert(@RequestBody Advert advert){
 		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.insert(advert));
@@ -46,6 +55,14 @@ public class AdvertController {
 	 * @description 获取广告
 	 * @return
 	 */
+	@ApiOperation(
+			value="初始化广告列表",
+			notes="初始化广告列表"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int")
+	})
 	@PostMapping("/dataGrid")
 	protected Object selectAdvertByPage(
 			 @RequestParam(value="current",required=false) Integer current,
@@ -77,6 +94,14 @@ public class AdvertController {
 	 * @description 搜索广告带分页
 	 * @return
 	 */
+	@ApiOperation(
+			value="分页搜索广告",
+			notes="分页搜索广告"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="title",value="广告标题",required=false,paramType="path",dataType="String"),
+		@ApiImplicitParam(name="p")
+	})
 	@PostMapping("/dataSearch")
 	protected Object selectAdvertByAreaAndStatusAndPage(
 			 @RequestParam(value="title",required=false) String title,
@@ -89,7 +114,10 @@ public class AdvertController {
 			 @RequestParam(value="st",required=false) Date startTime,
 			 @RequestParam(value="et",required=false) Date endTime
 			){
-		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.selectAdvertByAreaAndStatusAndPage(new Advert(title,postion,lockStatus,areasCode,areasType,startTime,endTime),current==null?1:current, size==null?10:size));				
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS,advertService
+						.selectAdvertByAreaAndStatusAndPage(new Advert(title,postion,lockStatus,areasCode,areasType,startTime,endTime),current==null?1:current, size==null?10:size));				
 	}
 	
 	
@@ -124,8 +152,8 @@ public class AdvertController {
 	 * @description 根据id删除广告
 	 */
 	@PostMapping("/delete")
-	protected Object deleteAdvertById(@RequestParam Long id){
-		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.deleteById(id));
+	protected Object deleteAdvertById(@RequestParam Long[] ids){
+		return advertService.deleteAdverts(ids);
 	}
 	
 }

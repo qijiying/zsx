@@ -1,7 +1,9 @@
 package com.zsx.fwmp.web.service.advert.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.google.common.collect.Maps;
 import com.zsx.dao.advert.AdvertMapper;
 import com.zsx.fwmp.web.others.base.ServerBase;
 import com.zsx.fwmp.web.service.advert.IAdvertService;
@@ -89,7 +92,6 @@ public class IAdvertServiceImpl extends ServiceImpl<AdvertMapper,Advert> impleme
 						}
 						//相同的fileGroupId只保留第一个，其它的remove
 						String str = itemF.getFileList().get(i).getFileGroupIds().toString();
-						System.out.println("---------"+str);
 						if(groupId.equals(str)){
 							itemF.getFileList().remove(i);
 							//list操作remove后长度减一
@@ -97,7 +99,7 @@ public class IAdvertServiceImpl extends ServiceImpl<AdvertMapper,Advert> impleme
 						}
 						else{
 							new ServerBase();
-							itemF.getFileList().get(i).setFileName(ServerBase.getServer()+itemF.getFilePath()+"/"+itemF.getFileList().get(i).getFileName());
+							itemF.getFileList().get(i).setFileName(itemF.getFileList().get(i).getFileName());
 							groupId = itemF.getFileList().get(i).getFileGroupIds().toString();
 						}
 					}
@@ -155,6 +157,26 @@ public class IAdvertServiceImpl extends ServiceImpl<AdvertMapper,Advert> impleme
 		page.setRecords(list);
 		page.setTotal(count);
 		return page;
+	}
+
+
+	/**
+	 * @Title deleteAdverts
+	 * @description 批量删除广告
+	 * @see com.zsx.fwmp.web.service.advert.IAdvertService#deleteAdverts(java.lang.Long[])
+	 */
+	@Override
+	public Object deleteAdverts(Long[] ids) {
+		List<Long> list = Arrays.asList(ids);
+		Integer count = advertMapper.deleteBatchIds(list);
+		Map<String,Object> map = Maps.newHashMap();
+		if(count>0){
+			map.put("code", 1);
+		}else{
+			map.put("code", 0);
+		}
+		map.put("result", count);
+		return map;
 	}
 
 }

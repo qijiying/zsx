@@ -1,6 +1,8 @@
 package com.zsx.fwmp.web.service.news.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -97,13 +99,16 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper,News> implements INe
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public Object releaseNewsByIds(Long[] ids) {
-		int result = newsMapper.releaseNewsByIds(ids);
-		if(result<ids.length)
-			try {
-				throw new Exception();
+		int result=0;
+		try {
+			Date date = new Date();//获得系统时间.
+			String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);//将时间格式转换成符合Timestamp要求的格式.
+			  result = newsMapper.releaseNewsByIds(ids,nowTime);
+		      if(result<ids.length) result = 0;
 			} catch (Exception e) {
 				result = 0;
 			}
+		
 		return result;
 	}
 

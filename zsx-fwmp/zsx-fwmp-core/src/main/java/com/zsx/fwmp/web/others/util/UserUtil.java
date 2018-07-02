@@ -181,7 +181,32 @@ public class UserUtil {
 			throw new SystemException(ResultEnum.SYSTEM_LOAD_PROPERTIES_DATA_IS_NULL);
 		}
 		if(tag!="") abstractJPush.pushMessageAllOfTagAndTitle(tag);
+		else abstractJPush.pushMessageAll();
 		
+	}
+
+
+	/**
+	 * @Title jpushAreas
+	 * @description 推送到区域
+	 * @param androidJpushService
+	 * @param area
+	 * @param title
+	 * @param content
+	 */
+	public static void jpushAreas(AbstractJPush abstractJPush, String area, String title, String content) {
+		System.out.println("==============jpush=================");
+		Log.debug("abstractJpush:"+abstractJPush+"---area:"+area+"---title:"+title+"---content:"+content,UserUtil.class);
+		abstractJPush.setTitle(title);
+		abstractJPush.setMessage(content);
+		if(ThirdpartyConstant.profilesVlaue.equals("prod")){
+			abstractJPush.setEnvironment(true); 
+		}else if(ThirdpartyConstant.profilesVlaue.equals("test")){
+			abstractJPush.setEnvironment(false); 
+		}else{
+			throw new SystemException(ResultEnum.SYSTEM_LOAD_PROPERTIES_DATA_IS_NULL);
+		}
+		abstractJPush.pushMessageAllOfTag(area);
 	}
 	
 }

@@ -84,15 +84,14 @@ public class UserController {
 			 @RequestParam(value="current",required=false) Integer current,
 			 @RequestParam(value="size",required=false) Integer size
 			){ 
-		Page<User> post=null;
 		Map<String, Object> map=Maps.newHashMap();
 		map.put("current", current==null?1:current);
 		map.put("size", size==null?10:size);
 		map.put("source", source);
-		post = iUserService.selectUser(map);
+		Page<User> user = iUserService.selectUser(map);
 		return ResultfulFactory
 				.getInstance()
-				.creator(ResultEnum.SUCCESS,post);
+				.creator(ResultEnum.SUCCESS,user);
 	}
 	
 	/**
@@ -222,17 +221,18 @@ public class UserController {
 	protected Object searchUserFriend(
 			@PathVariable("userId")Long userId,
 			@RequestParam(value="current",required=false) Integer current,
-			@RequestParam(value="size",required=false) Integer size
+			@RequestParam(value="size",required=false) Integer size,
+			@RequestParam(value="isEntire",required=false) String isEntire 
 			){
 		Assert.isNull(userId, ResultWebEnum.PARAM_IS_NULL);
 		Map<String,Object> map = Maps.newHashMap();
 		map.put("current", current==null?1:current);
 		map.put("size", size==null?10:size);
+		map.put("isEntire", isEntire);
 		return ResultfulFactory
 				.getInstance()
 				.creator(ResultEnum.SUCCESS, iUserService.searchUserFriend(userId,map));
 	}
-	
 	
 	
 	

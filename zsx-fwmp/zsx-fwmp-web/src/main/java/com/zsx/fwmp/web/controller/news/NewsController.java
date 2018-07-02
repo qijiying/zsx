@@ -1,5 +1,6 @@
 package com.zsx.fwmp.web.controller.news;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,20 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
+import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.news.INewsService;
 import com.zsx.model.pojo.News;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
+/**
+ * @ClassName NewsController
+ * @author lz
+ * @description 新闻控制层接口
+ * @date 2018年6月26日15:42:05
+ */
 @RestController
 @RequestMapping("/api/web/news")
 public class NewsController {
@@ -25,6 +37,28 @@ public class NewsController {
 	private INewsService newsService;
 	
 	
+	
+	/**
+	 * @Title addNews
+	 * @description 新增新闻
+	 * @param news
+	 * @return
+	 */
+	@ApiOperation(
+			value="新增新闻",
+			notes="新增新闻"
+			)
+	@ApiImplicitParam(name="news",value="新闻实体类",required=true,paramType="path",dataType="News")
+	@PostMapping("/add")
+	protected Object addNews(@RequestBody News news){
+		Assert.isNull(news.getTitle(),news.getContent(),news.getNewsStatus(),news.getNewsType());
+		if(news.getNewsStatus()==0) {
+			news.setNewsDate(new Date());
+		}
+		newsService.insert(news);
+		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS);
+	}
+	
 	/**
 	 * @Title newsList
 	 * @param current
@@ -32,6 +66,14 @@ public class NewsController {
 	 * @description 新闻初始化列表
 	 * @return
 	 */
+	@ApiOperation(
+			value="新闻初始化列表",
+			notes="新闻初始化列表"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int")
+	})
 	@PostMapping("/dataGrid")
 	protected Object newsList(
 			 @RequestParam(value="current",required=false) Integer current,
@@ -54,6 +96,15 @@ public class NewsController {
 	 * @description 搜索新闻
 	 * @return
 	 */
+	@ApiOperation(
+			value="搜索新闻",
+			notes="搜索新闻，目前只支持按标题搜索"
+			)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int"),
+		@ApiImplicitParam(name="news",value="新闻或资讯实体类",required=true,paramType="path",dataType="News")
+	})
 	@PostMapping("/dataSearch")
 	protected Object newsSearch(
 			 @RequestParam(value="current",required=false) Integer current,
@@ -75,6 +126,11 @@ public class NewsController {
 	 * @description 编辑新闻，可插入图片
 	 * @return
 	 */
+	@ApiOperation(
+			value="编辑新闻，可插入图片",
+			notes="编辑新闻，可插入图片"
+			)
+	@ApiImplicitParam(name="news",value="新闻或资讯实体类",required=true,paramType="path",dataType="News")
 	@PostMapping("/update")
 	protected Object updateNews(@RequestBody News news){		
 		return ResultfulFactory
@@ -89,6 +145,11 @@ public class NewsController {
 	 * @description 根据id删除news
 	 * @return
 	 */
+    @ApiOperation(
+    		value="根据ID批量删除新闻",
+    		notes="根据ID批量删除新闻"
+    		)	
+    @ApiImplicitParam(name="ids",value="新闻ID数组",required=true,paramType="path",dataType="long[]")
 	@PostMapping("/delete")
 	protected Object deleteNews(@RequestParam("ids") Long[] ids){
 		return ResultfulFactory
@@ -102,6 +163,11 @@ public class NewsController {
 	 * @description 批量发布新闻
 	 * @return
 	 */
+	@ApiOperation(
+			value="批量发布新闻",
+			notes="批量发布新闻"
+			)
+	@ApiImplicitParam(name="ids",value="新闻ID数组",required=true,paramType="path",dataType="long[]")
 	@PostMapping("/release")
 	protected Object releaseNews(@RequestParam("ids") Long[] ids){
 		return ResultfulFactory
