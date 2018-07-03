@@ -22,4 +22,9 @@ public enum ResultWebEnum {
      */
     WHETHER_SUCCESS
     
+    ,/**
+     * ID为null
+     */
+    ID_IS_NULL
+    
 }

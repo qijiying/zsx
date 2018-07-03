@@ -66,7 +66,7 @@ public class BriefingServiceImpl extends ServiceImpl<BriefingMapper, Briefing> i
         Log.debug((title), BriefingServiceImpl.class);
 		try {
 			//推送个人
-			UserUtil.jpush(androidJpushService, "442999574933504", title, briefing.getContent());
+			UserUtil.jpush(androidJpushService, "452562417381376", title, briefing.getContent());
 			//推送全部
 			//UserUtil.jpushTitle(androidJpushService, "", title, briefing.getContent());
 			return ResultEnum.SUCCESS;

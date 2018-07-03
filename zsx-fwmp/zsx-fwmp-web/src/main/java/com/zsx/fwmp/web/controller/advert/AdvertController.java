@@ -44,7 +44,9 @@ public class AdvertController {
 	@ApiImplicitParam(name="advert",value="广告实体类",required=true,paramType="path",dataType="Advert")
 	@PostMapping("/add")
 	protected Object insertAdvert(@RequestBody Advert advert){
-		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.insert(advert));
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS,advertService.insert(advert));
 	}
 	
 	
@@ -68,7 +70,10 @@ public class AdvertController {
 			 @RequestParam(value="current",required=false) Integer current,
 			 @RequestParam(value="size",required=false) Integer size
 			){
-		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.selectAdByPage(current==null?1:current,size==null?10:size));
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS,advertService
+						.selectAdByPage(current==null?1:current,size==null?10:size));
 	}
 	
 	
@@ -130,9 +135,16 @@ public class AdvertController {
 	 * @return
 	 * @description 修改广告
 	 */
+	@ApiOperation(
+			value="修改广告",
+			notes="修改广告"
+			)
+	@ApiImplicitParam(name="advert",value="广告实体类",required=true,paramType="path",dataType="Advert")
 	@PostMapping("/update")
 	protected Object updateAdvertById(@RequestBody Advert advert){
-		return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,advertService.updateById(advert));
+		return ResultfulFactory
+				.getInstance()
+				.creator(ResultEnum.SUCCESS,advertService.updateById(advert));
 	}
 	
 	

@@ -35,7 +35,9 @@ public class AreaController {
 	 */
 	@PostMapping("/areas")
 	 protected Object getAreasGrid(){
-		 return ResultfulFactory.getInstance().creator(ResultEnum.SUCCESS,iAreasService.selectAreasList());
+		 return ResultfulFactory
+				 .getInstance()
+				 .creator(ResultEnum.SUCCESS,iAreasService.selectAreasList());
 	 }
 	 
 /*	 @PostMapping("/city")
