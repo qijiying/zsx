@@ -41,22 +41,21 @@ public class SensitiveWordServiceImpl extends ServiceImpl<SensitiveWordMapper, S
 	@Autowired
 	private SensitiveWordMapper sensitiveWordMapper;
 	
-	@Autowired
-	private RedisUtil redisUtil;
+	//@Autowired
+	//private RedisUtil redisUtil;
 	
 	/**
 	 * @Title sensitiveWord
 	 * @description 初始化敏感词列表，加入缓存
 	 * @see com.zsx.fwmp.web.service.sensitive.ISensitiveWordService#sensitiveWord(com.baomidou.mybatisplus.plugins.Page)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public Page<SensitiveWord> sensitiveWord(Page<SensitiveWord> page) {
 		Integer current = page.getCurrent();
 		Integer size = page.getSize();
-		String key = RedisWebPreFixConstant.WEB_SENSITIVE_LIST+current+""+size;
+		//String key = RedisWebPreFixConstant.WEB_SENSITIVE_LIST+current+""+size;
 		List<SensitiveWord> list = new ArrayList<>();
-		if(redisUtil.exists(key)){
+        /* if(redisUtil.exists(key)){
 			list = (List<SensitiveWord>) redisUtil.get(key);
 			Log.debug("=================从缓存拿到敏感词====================", SensitiveWordServiceImpl.class);
 		}else{
@@ -66,7 +65,9 @@ public class SensitiveWordServiceImpl extends ServiceImpl<SensitiveWordMapper, S
 				Log.debug("=================从数据库拿到敏感词，存入缓存====================", SensitiveWordServiceImpl.class);
 				redisUtil.set(key, list, RedisWebPreFixConstant.REDIS_TIME);
 			}
-		}
+		}*/
+		String limit = " LIMIT "+(current-1)*size+","+size;
+		list = sensitiveWordMapper.selectList(new EntityWrapper<SensitiveWord>().last(limit));
 		int count = sensitiveWordMapper.selectCount(new EntityWrapper<SensitiveWord>());
 		page.setRecords(list);
 		page.setTotal(count);

@@ -18,13 +18,13 @@ import com.zsx.dao.post.PostReplyMapper;
 import com.zsx.dao.user.UserThumbUpMapper;
 import com.zsx.fwmp.web.others.base.ConstantClass;
 import com.zsx.fwmp.web.service.user.IUserThumbUpService;
-import com.zsx.model.dto.UserThumbUpDto;
 import com.zsx.model.pojo.News;
 import com.zsx.model.pojo.NewsComment;
 import com.zsx.model.pojo.NewsReply;
 import com.zsx.model.pojo.Post;
 import com.zsx.model.pojo.PostComment;
 import com.zsx.model.pojo.PostReply;
+import com.zsx.model.webdto.UserThumbUpDto;
 
 /**
  * @ClassName UserThumbUpServiceImpl

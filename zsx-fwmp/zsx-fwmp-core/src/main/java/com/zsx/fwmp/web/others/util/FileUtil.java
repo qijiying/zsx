@@ -25,8 +25,8 @@ import com.zsx.framework.base.BaseAppClass;
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.listener.PropertiesListenerConfig;
-import com.zsx.model.dto.FileDto;
 import com.zsx.model.pojo.FileManage;
+import com.zsx.model.webdto.FileDto;
 import com.zsx.utils.date.DateUtils;
 import com.zsx.utils.file.FtpUtils;
 

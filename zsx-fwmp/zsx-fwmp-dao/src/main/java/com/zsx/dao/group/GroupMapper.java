@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-import com.zsx.model.dto.GroupDto;
 import com.zsx.model.pojo.Group;
+import com.zsx.model.webdto.GroupDto;
 
 public interface GroupMapper extends BaseMapper<Group> {
 

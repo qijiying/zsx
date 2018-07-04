@@ -1,6 +1,6 @@
 package com.zsx.fwmp.web.others.callback.interfaces;
 
-import com.zsx.model.dto.FileDto;
+import com.zsx.model.webdto.FileDto;
 
 /**
   * 

@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
-import com.zsx.model.dto.GroupMemberDto;
-import com.zsx.model.dto.GroupMembersDto;
 import com.zsx.model.pojo.GroupMember;
+import com.zsx.model.webdto.GroupMemberDto;
+import com.zsx.model.webdto.GroupMembersDto;
 
 /**
   * 

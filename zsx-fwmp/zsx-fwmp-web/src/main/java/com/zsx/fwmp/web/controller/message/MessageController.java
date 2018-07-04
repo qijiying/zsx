@@ -18,8 +18,8 @@ import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.enums.MessageEnum;
 import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.message.IMessageService;
-import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
+import com.zsx.model.webdto.MessageDto;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

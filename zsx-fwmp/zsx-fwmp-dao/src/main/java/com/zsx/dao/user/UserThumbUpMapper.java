@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zsx.model.dto.UserThumbUpDto;
 import com.zsx.model.pojo.UserThumbUp;
+import com.zsx.model.webdto.UserThumbUpDto;
 
 public interface UserThumbUpMapper extends BaseMapper<UserThumbUp> {
 

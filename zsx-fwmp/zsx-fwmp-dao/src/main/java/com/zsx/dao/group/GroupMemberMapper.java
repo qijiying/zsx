@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.zsx.model.dto.GroupMemberDto;
 import com.zsx.model.pojo.GroupMember;
+import com.zsx.model.webdto.GroupMemberDto;
 
 public interface GroupMemberMapper extends BaseMapper<GroupMember> {
 

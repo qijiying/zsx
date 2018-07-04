@@ -16,8 +16,8 @@ import com.google.common.collect.Maps;
 import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.post.IPostService;
-import com.zsx.model.dto.PostDto;
 import com.zsx.model.pojo.Post;
+import com.zsx.model.webdto.PostDto;
 
 /**
  * @Title PostController

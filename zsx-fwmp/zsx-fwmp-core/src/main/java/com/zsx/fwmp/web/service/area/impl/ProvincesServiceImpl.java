@@ -13,8 +13,8 @@ import com.zsx.dao.basicedata.ProvincesMapper;
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.area.IProvincesService;
-import com.zsx.model.dto.CascadeDto;
 import com.zsx.model.pojo.Provinces;
+import com.zsx.model.webdto.CascadeDto;
 
 @Service
 public class ProvincesServiceImpl extends ServiceImpl<ProvincesMapper,Provinces> implements IProvincesService {

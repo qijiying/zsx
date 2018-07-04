@@ -24,8 +24,8 @@ import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.others.util.FileUtil;
 import com.zsx.fwmp.web.service.file.IFileManageService;
 import com.zsx.fwmp.web.service.file.abs.AbstractFileManageService;
-import com.zsx.model.dto.FileDto;
 import com.zsx.model.pojo.FileManage;
+import com.zsx.model.webdto.FileDto;
 
 /**
  * 

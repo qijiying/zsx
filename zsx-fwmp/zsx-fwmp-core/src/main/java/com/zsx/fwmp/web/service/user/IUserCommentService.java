@@ -3,7 +3,7 @@ package com.zsx.fwmp.web.service.user;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zsx.model.dto.UserCommentOfPostDto;
+import com.zsx.model.webdto.UserCommentOfPostDto;
 
 public interface IUserCommentService {
 

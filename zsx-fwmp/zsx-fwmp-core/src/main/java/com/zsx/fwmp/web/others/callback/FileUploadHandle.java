@@ -5,7 +5,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.zsx.fwmp.web.others.util.FileUtil;
 import com.zsx.fwmp.web.service.file.impl.FileManageServiceImpl;
-import com.zsx.model.dto.FileDto;
+import com.zsx.model.webdto.FileDto;
 
 /**
   * 

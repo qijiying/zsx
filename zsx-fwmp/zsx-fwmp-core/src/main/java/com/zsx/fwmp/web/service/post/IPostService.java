@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.zsx.model.dto.PostDto;
 import com.zsx.model.pojo.Post;
+import com.zsx.model.webdto.PostDto;
 
 public interface IPostService extends IService<Post> {
 

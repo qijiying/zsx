@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zsx.model.dto.UserGroupDto;
+import com.zsx.model.webdto.UserGroupDto;
 
 public interface UserGroupMapper {
 	

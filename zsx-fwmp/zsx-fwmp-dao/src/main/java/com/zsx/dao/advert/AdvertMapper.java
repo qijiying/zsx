@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zsx.model.dto.AdvertDto;
 import com.zsx.model.pojo.Advert;
+import com.zsx.model.webdto.AdvertDto;
 
 public interface AdvertMapper extends BaseMapper<Advert> {
 

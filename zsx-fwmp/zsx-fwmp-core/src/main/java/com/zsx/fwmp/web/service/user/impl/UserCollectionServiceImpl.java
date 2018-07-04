@@ -13,8 +13,8 @@ import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.enums.UserCollectionEnum;
 import com.zsx.fwmp.web.others.util.FileUtil;
 import com.zsx.fwmp.web.service.user.IUserCollectionService;
-import com.zsx.model.dto.FileDto;
-import com.zsx.model.dto.UserCollectionDto;
+import com.zsx.model.webdto.FileDto;
+import com.zsx.model.webdto.UserCollectionDto;
 
 @Service
 public class UserCollectionServiceImpl implements IUserCollectionService {

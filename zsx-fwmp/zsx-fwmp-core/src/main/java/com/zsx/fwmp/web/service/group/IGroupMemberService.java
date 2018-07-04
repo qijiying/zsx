@@ -1,9 +1,9 @@
 package com.zsx.fwmp.web.service.group;
 
 import com.baomidou.mybatisplus.service.IService;
-import com.zsx.model.dto.GroupDto;
-import com.zsx.model.dto.GroupMembersDto;
 import com.zsx.model.pojo.GroupMember;
+import com.zsx.model.webdto.GroupDto;
+import com.zsx.model.webdto.GroupMembersDto;
 
 public interface IGroupMemberService extends IService<GroupMember> {
 

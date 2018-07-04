@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
+import com.zsx.model.webdto.MessageDto;
 
 public interface IMessageService extends IService<Message> {
 

@@ -14,4 +14,6 @@ public interface IUtteranceService extends IService<Utterance> {
 
 	Object addUtterance(Utterance utterance);
 
+	Object getRandomByClass(Integer id);
+
 }

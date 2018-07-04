@@ -2,6 +2,7 @@ package com.zsx.fwmp.web.controller.utterance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,6 @@ import com.zsx.framework.designpattern.factory.ResultfulFactory;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.base.ResultWebEnum;
 import com.zsx.fwmp.web.others.util.Assert;
-import com.zsx.fwmp.web.service.sensitive.ISensitiveWordService;
 import com.zsx.fwmp.web.service.utterance.IUtteranceService;
 import com.zsx.model.pojo.Utterance;
 
@@ -33,9 +33,7 @@ public class UtteranceController {
 
 	@Autowired
 	private IUtteranceService iUtteranceService;
-	
-	@Autowired
-	private ISensitiveWordService iSensitiveWordService;
+
 	
 	/**
 	 * @Title addUtterance
@@ -117,29 +115,19 @@ public class UtteranceController {
 	
 	
 	/**
-	 * @Title sensitiveWord
-	 * @description 敏感词列表
-	 * @param current
-	 * @param size
+	 * @Title getRandomByClass
+	 * @description 根据话语类别获得随机的话语
+	 * @param id
 	 * @return
 	 */
 	@ApiOperation(
-			value="敏感词列表",
-			notes="敏感词列表"
+			value="根据话语类别获得随机话语",
+			notes="根据话语类别获得随机话语"
 			)
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="current",value="当前页码",required=false,paramType="query",dataType="int"),
-		@ApiImplicitParam(name="size",value="每页条数",required=false,paramType="query",dataType="int")
-	})
-	@GetMapping("/sensitive/dataGrid")
-	protected Object sensitiveWord(
-			@RequestParam(value="current",required=false) Integer current,
-			@RequestParam(value="size",required=false) Integer size
-			){
-		return ResultfulFactory
-				.getInstance()
-				.creator(ResultEnum.SUCCESS, iSensitiveWordService
-						.sensitiveWord(new Page<>(current==null?1:current,size==null?10:size)));
+	@ApiImplicitParam(name="id",value="类型id",required=true,paramType="path",dataType="int")
+	@GetMapping("/class/{id}")
+	protected Object getRandomByClass(@PathVariable Integer id){
+		return iUtteranceService.getRandomByClass(id);
 	}
 	
 }

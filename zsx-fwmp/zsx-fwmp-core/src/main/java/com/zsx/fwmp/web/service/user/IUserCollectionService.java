@@ -1,7 +1,7 @@
 package com.zsx.fwmp.web.service.user;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zsx.model.dto.UserCollectionDto;
+import com.zsx.model.webdto.UserCollectionDto;
 
 public interface IUserCollectionService {
 

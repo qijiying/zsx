@@ -12,8 +12,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.zsx.dao.user.UserCommentMapper;
 import com.zsx.fwmp.web.others.base.ServerBase;
 import com.zsx.fwmp.web.service.user.IUserCommentService;
-import com.zsx.model.dto.FileDto;
-import com.zsx.model.dto.UserCommentOfPostDto;
+import com.zsx.model.webdto.FileDto;
+import com.zsx.model.webdto.UserCommentOfPostDto;
 
 @Service
 public class UserCommentServiceImpl implements IUserCommentService {

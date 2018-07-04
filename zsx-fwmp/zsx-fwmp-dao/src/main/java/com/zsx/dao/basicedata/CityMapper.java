@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.zsx.framework.exception.SystemException;
-import com.zsx.model.dto.CascadeDto;
 import com.zsx.model.pojo.City;
+import com.zsx.model.webdto.CascadeDto;
 
 public interface CityMapper extends BaseMapper<City> {
 

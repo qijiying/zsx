@@ -13,8 +13,8 @@ import com.zsx.dao.basicedata.CityMapper;
 import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.area.ICityService;
-import com.zsx.model.dto.CascadeDto;
 import com.zsx.model.pojo.City;
+import com.zsx.model.webdto.CascadeDto;
 
 @Service
 public class CityServiceImpl extends ServiceImpl<CityMapper,City> implements ICityService {

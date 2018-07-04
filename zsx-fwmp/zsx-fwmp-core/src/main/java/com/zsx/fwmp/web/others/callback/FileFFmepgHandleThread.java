@@ -12,8 +12,8 @@ import com.zsx.fwmp.web.others.util.ImageUtil;
 import com.zsx.fwmp.web.others.util.VideoUtil;
 import com.zsx.fwmp.web.service.file.IFileManageService;
 import com.zsx.fwmp.web.service.file.impl.FileManageServiceImpl;
-import com.zsx.model.dto.FileDto;
 import com.zsx.model.pojo.FileManage;
+import com.zsx.model.webdto.FileDto;
 
 /**
   * 

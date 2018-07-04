@@ -2,8 +2,8 @@ package com.zsx.fwmp.web.service.group;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.zsx.model.dto.GroupDto;
 import com.zsx.model.pojo.Group;
+import com.zsx.model.webdto.GroupDto;
 
 /**
  * @ClassName IGroupService

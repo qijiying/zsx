@@ -18,8 +18,8 @@ import com.zsx.fwmp.web.others.listener.PropertiesListenerConfig;
 import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.group.IGroupMemberService;
 import com.zsx.fwmp.web.service.group.IGroupService;
-import com.zsx.model.dto.GroupDto;
 import com.zsx.model.pojo.Group;
+import com.zsx.model.webdto.GroupDto;
 import com.zsx.utils.string.StringUtils;
 
 import io.swagger.annotations.ApiImplicitParam;

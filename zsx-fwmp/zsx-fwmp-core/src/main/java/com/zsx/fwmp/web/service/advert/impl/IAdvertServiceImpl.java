@@ -15,10 +15,10 @@ import com.google.common.collect.Maps;
 import com.zsx.dao.advert.AdvertMapper;
 import com.zsx.fwmp.web.others.base.ServerBase;
 import com.zsx.fwmp.web.service.advert.IAdvertService;
-import com.zsx.model.dto.AdvertDto;
-import com.zsx.model.dto.FileDto;
-import com.zsx.model.dto.FileManageDto;
 import com.zsx.model.pojo.Advert;
+import com.zsx.model.webdto.AdvertDto;
+import com.zsx.model.webdto.FileDto;
+import com.zsx.model.webdto.FileManageDto;
 
 /**
  * @Title IAdvertServiceImpl

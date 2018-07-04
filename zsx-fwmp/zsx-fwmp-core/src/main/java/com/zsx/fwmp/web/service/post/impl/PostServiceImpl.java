@@ -21,12 +21,12 @@ import com.zsx.fwmp.web.others.base.ConstantClass;
 import com.zsx.fwmp.web.others.base.Log;
 import com.zsx.fwmp.web.others.base.ServerBase;
 import com.zsx.fwmp.web.service.post.IPostService;
-import com.zsx.model.dto.FileDto;
-import com.zsx.model.dto.FileManageDto;
-import com.zsx.model.dto.PostDto;
 import com.zsx.model.pojo.Post;
 import com.zsx.model.pojo.PostComment;
 import com.zsx.model.pojo.PostReply;
+import com.zsx.model.webdto.FileDto;
+import com.zsx.model.webdto.FileManageDto;
+import com.zsx.model.webdto.PostDto;
 
 /**
  * @author lz

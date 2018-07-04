@@ -21,10 +21,9 @@ import com.zsx.fwmp.web.others.listener.PropertiesListenerConfig;
 import com.zsx.fwmp.web.others.util.UserUtil;
 import com.zsx.fwmp.web.service.message.IMessageService;
 import com.zsx.fwmp.web.service.user.IUserService;
-import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
 import com.zsx.model.pojo.User;
-
+import com.zsx.model.webdto.MessageDto;
 import com.zsx.thirdparty.jpush.AndroidJpushService;
 import com.zsx.thirdparty.jpush.IosJpushService;
 

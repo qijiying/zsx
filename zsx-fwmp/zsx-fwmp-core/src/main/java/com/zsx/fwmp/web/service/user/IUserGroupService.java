@@ -3,7 +3,7 @@ package com.zsx.fwmp.web.service.user;
 import java.util.List;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.zsx.model.dto.UserGroupDto;
+import com.zsx.model.webdto.UserGroupDto;
 
 public interface IUserGroupService {
 

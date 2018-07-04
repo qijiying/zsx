@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.zsx.dao.user.UserGroupMapper;
 import com.zsx.fwmp.web.service.user.IUserGroupService;
-import com.zsx.model.dto.UserGroupDto;
+import com.zsx.model.webdto.UserGroupDto;
 
 /**
  * @ClassName UserGroupServiceImpl

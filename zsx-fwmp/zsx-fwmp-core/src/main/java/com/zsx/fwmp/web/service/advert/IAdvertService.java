@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.zsx.model.dto.AdvertDto;
 import com.zsx.model.pojo.Advert;
+import com.zsx.model.webdto.AdvertDto;
 
 public interface IAdvertService extends IService<Advert> {
 	

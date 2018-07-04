@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import com.zsx.fwmp.web.others.listener.PropertiesListenerConfig;
 import com.zsx.fwmp.web.service.file.impl.FileManageServiceImpl;
-import com.zsx.model.dto.FileDto;
 import com.zsx.model.pojo.FileManage;
+import com.zsx.model.webdto.FileDto;
 import com.zsx.utils.bean.ObjectUtils;
 import com.zsx.utils.file.FileUtils;
 

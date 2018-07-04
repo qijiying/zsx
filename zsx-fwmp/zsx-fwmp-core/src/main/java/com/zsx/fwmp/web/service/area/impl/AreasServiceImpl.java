@@ -18,13 +18,13 @@ import com.zsx.framework.exception.SystemException;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.service.area.IAreasService;
 import com.zsx.fwmp.web.service.area.ICityService;
-import com.zsx.model.dto.AreasDto;
-import com.zsx.model.dto.CascadeDto;
-import com.zsx.model.dto.CityDto;
-import com.zsx.model.dto.ProvicesDto;
 import com.zsx.model.pojo.Areas;
 import com.zsx.model.pojo.City;
 import com.zsx.model.pojo.Provinces;
+import com.zsx.model.webdto.AreasDto;
+import com.zsx.model.webdto.CascadeDto;
+import com.zsx.model.webdto.CityDto;
+import com.zsx.model.webdto.ProvicesDto;
 
 @Service
 public class AreasServiceImpl extends ServiceImpl<AreasMapper,Areas> implements IAreasService {

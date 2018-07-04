@@ -3,6 +3,7 @@ package com.zsx.fwmp.web.service.utterance.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import com.zsx.framework.redis.RedisUtil;
 import com.zsx.framework.redis.RedisUtils;
 import com.zsx.fwmp.web.others.base.Log;
 import com.zsx.fwmp.web.others.constant.RedisWebPreFixConstant;
+import com.zsx.fwmp.web.others.util.RandomUtil;
 import com.zsx.fwmp.web.service.utterance.IUtteranceService;
 import com.zsx.model.pojo.Utterance;
 
@@ -32,10 +34,10 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 	@Autowired
 	private UtteranceMapper utteranceMapper;
 	
-	@Autowired
-	RedisUtil redisUtil;
+	//@Autowired
+	//RedisUtil redisUtil;
 	
-	private static String key = RedisWebPreFixConstant.WEB_UTTERANCE_LIST;
+	//private static String key = RedisWebPreFixConstant.WEB_UTTERANCE_LIST;
 
 	
 	/**
@@ -43,13 +45,12 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 	 * @description 初始化话语列表，实现缓存
 	 * @see com.zsx.fwmp.web.service.utterance.IUtteranceService#dataGrid(com.baomidou.mybatisplus.plugins.Page)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public Page<Utterance> dataGrid(Page<Utterance> page) {
 		Integer current = page.getCurrent();
 		Integer size = page.getSize();
 		List<Utterance> list = Lists.newArrayList();
-		if(redisUtil.exists(key)){
+/*		if(redisUtil.exists(key)){
 			list = (List<Utterance>) redisUtil.get(key);
 			Log.debug("=======从缓存拿Utterance列表==========", UtteranceServiceImpl.class);
 		}else{
@@ -57,7 +58,9 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 			list = utteranceMapper.selectList(new EntityWrapper<Utterance>().last(limit).orderBy("class_id", true));
 			redisUtil.set(key, list);
 			Log.debug("=========从数据库拿Utterance列表，存入缓存===========", UtteranceServiceImpl.class);
-		}
+		}*/
+		String limit = " LIMIT "+(current-1)*size+","+size;
+		list = utteranceMapper.selectList(new EntityWrapper<Utterance>().last(limit).orderBy("class_id", true));
 		int count = utteranceMapper.selectCount(new EntityWrapper<Utterance>());
 		page.setRecords(list);
 		page.setTotal(count);
@@ -73,9 +76,6 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 	public Object updateUtterance(Utterance utterance) {
 		Map<String,Object> map = Maps.newHashMap();
 		if(updateById(utterance)){
-			if(RedisUtils.exists(key)){
-				redisUtil.remove(key);
-			}
 			map.put("code", 1);
 		}else{map.put("code", 0);}
 		return map;
@@ -91,9 +91,6 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 		Map<String,Object> map = Maps.newHashMap();
 		List<Integer> list = Arrays.asList(ids);
 		if(utteranceMapper.deleteBatchIds(list)>0){
-			if(RedisUtils.exists(key)){
-				redisUtil.remove(key);
-			}
 			map.put("code", 1);
 		}else{
 			map.put("code", 0);
@@ -110,15 +107,35 @@ public class UtteranceServiceImpl extends ServiceImpl<UtteranceMapper, Utterance
 	public Object addUtterance(Utterance utterance) {
 		Map<String,Object> map = Maps.newHashMap();
 		if(insert(utterance)){
-			if(RedisUtils.exists(key)){
-				redisUtil.remove(key);
-			}
 			map.put("code", 1);
 		}else{map.put("code", 0);}	
 		return map;
 	}
-	
-	
-	
 
+	/**
+	 * @Title getRandomByClass
+	 * @description 根据话语类别，随机返回话语（不够10条则全部返回）
+	 * @see com.zsx.fwmp.web.service.utterance.IUtteranceService#getRandomByClass(java.lang.Integer)
+	 */
+	@Override
+	public Object getRandomByClass(Integer id) {
+		List<Utterance> list = utteranceMapper
+				                 .selectList(new EntityWrapper<Utterance>()
+						                  .setSqlSelect("id","content").where("class_id={0}", id));
+		Map<String,Object> map =Maps.newHashMap();
+		//判断总条数少于10条，返回全部，大于10条则随机返回10条
+		if(list.size()<=10){
+			map.put("result", list);
+		}else{
+			Vector<Integer> random = RandomUtil.RandomNum(10,list.size());
+			List<Utterance> listu = Lists.newArrayList();
+			for (Integer ran : random) {
+				listu.add(list.get(ran));
+			}
+			map.put("result", listu);
+		}
+		map.put("code", 1);
+		return map;
+	}
+	
 }

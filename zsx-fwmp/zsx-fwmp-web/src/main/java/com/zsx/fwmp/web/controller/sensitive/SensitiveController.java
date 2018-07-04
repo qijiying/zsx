@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,7 +68,7 @@ public class SensitiveController {
 			)
 	@ApiImplicitParam(name="sensitiveWord",value="敏感词实体类",required=true,paramType="path",dataType="SensitiveWord")
 	@PostMapping("/add")
-	protected Object addSensitiveWord(@RequestParam SensitiveWord sensitiveWord){
+	protected Object addSensitiveWord(@RequestBody SensitiveWord sensitiveWord){
 		Assert.isNull(sensitiveWord.getWord());
 		return iSensitiveWordService.addSensitiveWord(sensitiveWord);
 	}
@@ -85,7 +86,7 @@ public class SensitiveController {
 			)
 	@ApiImplicitParam(name="sensitiveWord",value="敏感词实体类",required=true,paramType="path",dataType="SensitiveWord")
 	@PostMapping("/update")
-	protected Object updateSensitiveWord(@RequestParam SensitiveWord sensitiveWord){
+	protected Object updateSensitiveWord(@RequestBody SensitiveWord sensitiveWord){
 		Assert.isNull(sensitiveWord.getId(),sensitiveWord.getWord());
 		return iSensitiveWordService.updateSensitiveWord(sensitiveWord);
 	}

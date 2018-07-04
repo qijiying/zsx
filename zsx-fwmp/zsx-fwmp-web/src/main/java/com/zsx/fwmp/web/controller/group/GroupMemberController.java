@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zsx.framework.exception.enmus.ResultEnum;
 import com.zsx.fwmp.web.others.util.Assert;
 import com.zsx.fwmp.web.service.group.IGroupMemberService;
-import com.zsx.model.dto.GroupDto;
+import com.zsx.model.webdto.GroupDto;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

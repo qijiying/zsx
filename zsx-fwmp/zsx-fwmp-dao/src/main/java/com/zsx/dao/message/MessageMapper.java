@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-import com.zsx.model.dto.MessageDto;
 import com.zsx.model.pojo.Message;
+import com.zsx.model.webdto.MessageDto;
 
 public interface MessageMapper extends BaseMapper<Message> {
 
